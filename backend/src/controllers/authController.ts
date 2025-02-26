@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 const SECRET = process.env.JWT_SECRET || "default_secret";
 
-export const login = async (req: Request, res: Response): Promise<void | Response> => {
+export const login = async (req: Request, res: Response): Promise<void> => {
   const { first_name, last_name, password } = req.body;
 
   try {
@@ -40,10 +40,10 @@ export const login = async (req: Request, res: Response): Promise<void | Respons
       }
     });
 
-  } catch (error:any) {
-    console.error("Login-Fehler:", error); // Fügt Logging hinzu
-    return res.status(500).json({ error: "Server-Fehler", details: error.message });
-}
+  } catch (error) {
+    console.error("Login-Fehler:", error); // Logge den Fehler in die Konsole
+    res.status(500).json({ error: "Fehler beim Einloggen", details: error instanceof Error ? error.message : String(error) });
+  }
 };
 
 
